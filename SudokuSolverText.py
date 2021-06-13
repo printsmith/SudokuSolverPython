@@ -6,7 +6,7 @@
 import math
 
 # Populate initial Sudoku board
-grid = [
+board = [
     [7,8,0,4,0,0,1,2,0],
     [6,0,0,0,7,5,0,0,9],
     [0,0,0,6,0,1,0,7,8],
@@ -33,11 +33,6 @@ def print_board(board):
             else:
                 print(board[i][j], end=" ")
 
-# Print initial Sudoku grid
-print("\nInitial Sudoku Grid\n")
-print_board(grid)
-print("\n")
-
 # Finds empty squares in board
 def find_empty(board):
 
@@ -59,14 +54,15 @@ def SudokuSolver(board):
         # Pass in board, num and empty space coordinates (find) to isValid
         if isValid(board, i, find):
             board[find[0]][find[1]] = i
-    
-    print_board(board)
+            if SudokuSolver(board):
+                return True
+            board[find[0]][find[1]] = 0
+    return False
 
 
 # Checks if current number is already in row. 
 # num is a numbr 1-9 being tested, pos is the current position in the sudoku grid found via isValid
 def isValid(board, num, pos):
-
 
     # pos[0] = row of test point
     row = pos[0]
@@ -99,4 +95,7 @@ def isValid(board, num, pos):
     
     return True
 
-SudokuSolver(grid)
+print_board(board)
+SudokuSolver(board)
+print("\n")
+print_board(board)
