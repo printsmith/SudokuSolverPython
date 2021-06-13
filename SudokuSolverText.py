@@ -3,6 +3,8 @@
 #   Tyler Kalinowicz
 #
 
+import math
+
 # Populate initial Sudoku board
 grid = [
     [7,8,0,4,0,0,1,2,0],
@@ -32,7 +34,9 @@ def print_board(board):
                 print(board[i][j], end=" ")
 
 # Print initial Sudoku grid
+print("\nInitial Sudoku Grid\n")
 print_board(grid)
+print("\n")
 
 # Finds empty squares in board
 def find_empty(board):
@@ -71,15 +75,28 @@ def isValid(board, num, pos):
 
     # Check row
     for i in range(len(board[0])):
-        print(board[row][i])
         if board[row][i] == num:
             return False
     
     # Check column
-    # for i in range(len(board[0])):
-    #     if board[i][col] == num:
-    #         return False
+    for i in range(len(board[0])):
+        if board[i][col] == num:
+            return False
 
+    # Check square by breaking sudoku into a 3x3 grid using the row and col, grid size is sqrt of board length:
+    # (0,0)	(1,0) (2,0)
+    # (0,1)	(1,1) (2,1)
+    # (0,2) (1,2) (2,2)
+    n = int(math.sqrt(len(board[0])))
+    gridPos = [row//n, col//n]
+
+    for i in range(len(board[0])):
+        for j in range(len(board[0])):
+            testPos = [i//n, j//n]
+            if testPos == gridPos:
+                if board[i][j] == num:
+                    return False
+    
     return True
 
 SudokuSolver(grid)
