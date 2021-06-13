@@ -6,7 +6,7 @@ The goal is to continue adding features to practice different skillsets such as 
 
 Roadmap:
 
-[] Backtracking algorithm to check validity and solve a hard coded Sudoku problem.
-[] Create an randomized Sudoku problem generator that can ensure it is valid and has a solution.
-[] Create a GUI that will visualize the backtracking algorithm for the user.
-[] Figure out how to make the GUI interactable and be bale to play Sudoku.
+- [ ] Backtracking algorithm to check validity and solve a hard coded Sudoku problem.
+- [ ]Create an randomized Sudoku problem generator that can ensure it is valid and has a solution.
+- [ ]Create a GUI that will visualize the backtracking algorithm for the user.
+- [ ]Figure out how to make the GUI interactable and be bale to play Sudoku.
