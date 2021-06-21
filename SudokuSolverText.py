@@ -20,7 +20,24 @@ board = [
 ]
 
 # Initialize pygame for GUI interface
+WIDTH, HEIGHT = 900, 900
+WIN = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Sudoku")
 pygame.init()
+
+# Main function
+def main():
+
+    run = True
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+
+    pygame.quit()    
+
+if __name__ == "__main__":
+    main()
 
 # Function prints Sudoku board with grid lines
 def print_board(board):
@@ -44,6 +61,7 @@ def find_empty(board):
             if board[i][j] == 0:
                 return(i, j) # returns the row and column of empty squares
 
+# Solves board state
 def SudokuSolver(board):
 
     # Check if board is alrady solved, otherwise find first empty position to begin solving
