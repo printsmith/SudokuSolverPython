@@ -4,6 +4,7 @@
 #
 
 import math
+import pygame
 
 # Populate initial Sudoku board
 board = [
@@ -18,6 +19,8 @@ board = [
     [0,4,9,2,0,6,0,0,7],
 ]
 
+# Initialize pygame for GUI interface
+pygame.init()
 
 # Function prints Sudoku board with grid lines
 def print_board(board):
@@ -54,11 +57,10 @@ def SudokuSolver(board):
         # Pass in board, num and empty space coordinates (find) to isValid
         if isValid(board, i, find):
             board[find[0]][find[1]] = i
-            if SudokuSolver(board):
+            if SudokuSolver(board): 
                 return True
-            board[find[0]][find[1]] = 0
+            board[find[0]][find[1]] = 0 # backtracking to return current state to 0 if it is invalid
     return False
-
 
 # Checks if current number is already in row. 
 # num is a numbr 1-9 being tested, pos is the current position in the sudoku grid found via isValid
