@@ -27,17 +27,19 @@ class Grid:
         self.cols = cols
         self.width = width
         self.height = height
-        self.boxes = [[Cell(self.board[i][j], i, j, width, height) for j in range(cols)] for i in range(rows)]
+        self.cells = [[Cell(self.board[i][j], i, j, width, height) for j in range(cols)] for i in range(rows)]
         self.win = win
         self.model = None
-        self.update_model()
         self.selected = None
+        self.update_model()
 
     def update_model(self):
-        self.model = []
+        self.model = [[(self.cells[i][j], i, j, width, height) for j in range(self.cols)] for i in range(self.rows)]
 
-    def drawGrid(self):
+    def draw(self):
         size = self.width / 9
+
+        # Draw the grid lines
         for i in range(self.rows):
             if i % 3 == 0 and i != 0:
                 t = 6
@@ -45,12 +47,13 @@ class Grid:
                 t = 1
             pygame.draw.line(self.win, BLACK, (0, i*size), (self.width, i*size), t)
             pygame.draw.line(self.win, BLACK, (i*size, 0), (i*size, self.height), t)
-            rect = pygame.Rect(i, i, size, size)
-            pygame.draw.rect(self.win, BLACK, rect, 1)
+        
+        # Draw the cells
+        for i in range(self.rows):
+            for j in range(self.cols):
+                self.cells[i][j].draw(self.win)
     
-    #def clear(self):
 
-            
 class Cell:
     # Class to store data of single cell in Sudoku board
 
@@ -59,6 +62,7 @@ class Cell:
 
     def __init__(self, value, row, col, width, height):
         self.value = value
+        self.temp = 0
         self.row = row
         self.col = col
         self.width = width
@@ -66,35 +70,43 @@ class Cell:
         self.selected = False
 
     def draw(self, win):
-        font = pygame.font.SysFont("calibri", 60)
+        #font = pygame.font.SysFont("calibri", 60)
         size = self.width / 9
         x = self.col * size
         y = self.row * size
 
+    def set(self, val):
+        # Sets value of selected cell
+        self.value = val
     
-    
-# # Draws screen
-# def draw_window():
+    def set_temp(self, val):
+        # Sets temporary value of selected cell
+        self.temp = val
 
-#         WIN.fill(WHITE)
-#         drawGrid()
-#         pygame.display.update()
+
+def draw_window(win, board):
+    # Draw game window
+    win.fill(WHITE)
+    #font = pygame.font.SysFont("calibri", 60)
+    board.draw()
 
 # Main function
 def main():
     win = pygame.display.set_mode((width, height))
     pygame.display.set_caption("Sudoku")
+    board = Grid(9, 9, width, height, win)
     clock = pygame.time.Clock()
     run = True
-    board = Grid(9, 9, width, height, win)
     key = None
    
     while run:
+        # main game loop
         clock.tick(FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.KEYDOWN:
+                # Check which key is pressed and what action is associated with it
                 if event.key == pygame.K_1 or pygame.K_KP1:
                     key = 1
                 if event.key == pygame.K_2 or pygame.K_KP2:
@@ -113,16 +125,12 @@ def main():
                     key = 8
                 if event.key == pygame.K_9 or pygame.K_KP9:
                     key = 9
-                if event.key == pygame.K_BACKSPACE:
+                if event.key == pygame.K_BACKSPACE or pygame.K_DELETE:
                     board.clear()
                     key = None
 
+        draw_window(win, board)
         pygame.display.update()
-
-
-
-# Selects square in grid
-#def select():
 
 
 main()
