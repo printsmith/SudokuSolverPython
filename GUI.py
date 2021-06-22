@@ -1,11 +1,13 @@
 # GUI for SudokuGame
 
 import pygame
+pygame.font.init()
 
 # Initialize pygame and global variables for game 
 width, height = 900, 900
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
+GREY = (128, 128, 128)
 FPS = 60
 
 class Grid:
@@ -70,24 +72,32 @@ class Cell:
         self.selected = False
 
     def draw(self, win):
-        #font = pygame.font.SysFont("calibri", 60)
+        # Draw cell and values within
+        font = pygame.font.SysFont("calibri", 60)
         size = self.width / 9
         x = self.col * size
         y = self.row * size
 
+        # Write in temp or value
+        if self.temp != 0 and self.value == 0:
+            num = font.render(str(self.temp), True, GREY)
+            win.blit(num, (x, y))
+        elif self.value != 0:
+            num = font.render(str(self.value), True, BLACK)
+            win.blit(num, (x + (size/2), y + (size/2)))
+
     def set(self, val):
         # Sets value of selected cell
         self.value = val
-    
+
     def set_temp(self, val):
         # Sets temporary value of selected cell
         self.temp = val
 
-
 def draw_window(win, board):
     # Draw game window
     win.fill(WHITE)
-    #font = pygame.font.SysFont("calibri", 60)
+    #font = pygame.font.SysFont("calibri", 60) 
     board.draw()
 
 # Main function
