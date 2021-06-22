@@ -8,8 +8,8 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 FPS = 60
 
-# Populate initial Sudoku board
 class Grid:
+    # Class to store grid and solve/check
     board = [
         [7,8,0,4,0,0,1,2,0],
         [6,0,0,0,7,5,0,0,9],
@@ -27,7 +27,7 @@ class Grid:
         self.cols = cols
         self.width = width
         self.height = height
-        self.boxes = [[Box(self.board[i][j], i, j, width, height) for j in range(cols)] for i in range(rows)]
+        self.boxes = [[Cell(self.board[i][j], i, j, width, height) for j in range(cols)] for i in range(rows)]
         self.win = win
         self.model = None
         self.update_model()
@@ -48,11 +48,12 @@ class Grid:
             rect = pygame.Rect(i, i, size, size)
             pygame.draw.rect(self.win, BLACK, rect, 1)
     
-    def clear(self):
-        row, col = self.selected
-        if self.box[row][col].value == 0:
+    #def clear(self):
+
             
-class Box:
+class Cell:
+    # Class to store data of single cell in Sudoku board
+
     rows = 9
     cols = 9
 
@@ -65,14 +66,13 @@ class Box:
         self.selected = False
 
     def draw(self, win):
-        fnt = pygame.font.SysFont("calibri", 60)
+        font = pygame.font.SysFont("calibri", 60)
         size = self.width / 9
         x = self.col * size
         y = self.row * size
+
     
-
-
-
+    
 # # Draws screen
 # def draw_window():
 
@@ -116,6 +116,8 @@ def main():
                 if event.key == pygame.K_BACKSPACE:
                     board.clear()
                     key = None
+
+        pygame.display.update()
 
 
 
